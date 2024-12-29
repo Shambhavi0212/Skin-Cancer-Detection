@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Cancer Detection</title>
+    <style>
+        @keyframes glowing {
+            0% {
+                text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #008000, 0 0 80px #008000;
+            }
+            50% {
+                text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 60px #ff00ff, 0 0 120px #ff00ff;
+            }
+            100% {
+                text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 40px #008000, 0 0 80px #008000;
+            }
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0.8;
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('/static/bg2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .header {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+        }
+
+        .header h1 {
+            font-size: 40px;
+            color: #fff;
+            margin-top: 50px;
+            text-shadow: -1px -1px 0 #00ff00, 1px -1px 0 #008000, -1px 1px 0 #008000, 1px 1px 0 #008000;
+            -webkit-text-stroke: 1px rgb(255, 3, 179);
+            animation: glowing 2s ease-in-out infinite alternate, sparkle 1.5s ease-in-out infinite;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header p {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .file-input {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .file-input input[type="file"] {
+            display: none;
+        }
+
+        .file-input label {
+            display: inline-block;
+            background: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.5s ease, background 0.5s ease; /* Added smooth transition for hover effect */
+        }
+
+        /* Hover effect for "Choose an image" button */
+        .file-input label:hover {
+            background: #0056b3;
+            transform: scale(1.1); /* Slight zoom effect */
+        }
+
+        .upload-btn {
+            background: #28a745;
+            color: #fff;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.5s ease, background 0.5s ease;
+        }
+
+        /* Hover effect for "Upload Image" button */
+        .upload-btn:hover {
+            background: #6aff00;
+            transform: scale(1.1); /* Slight zoom effect */
+        }
+
+        /* Style for image preview */
+        .image-preview {
+            margin-top: -15px;
+            margin-bottom: 10px;
+            width: 400px;
+            height: 150px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Skin Cancer Detection</h1>
+    </div>
+    <div class="container">
+        <div class="card">
+            <header>
+                <p>Upload an image to analyze skin cancer risk</p>
+            </header>
+
+            <div class="upload-section">
+                <form action="/predict" method="post" enctype="multipart/form-data">
+                    <div class="file-input">
+                        <input type="file" id="file" name="image" accept="image/*" required onchange="previewImage(event)">
+                        <label for="file">Choose an image</label>
+                    </div>
+                    <!-- Image preview element -->
+                    <img id="image-preview" class="image-preview" src="#" alt="Image Preview" style="display: none;">
+                    <button type="submit" class="upload-btn">Upload Image</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle image preview
+        function previewImage(event) {
+            const reader = new FileReader();
+            const imagePreview = document.getElementById('image-preview');
+
+            reader.onload = function() {
+                imagePreview.src = reader.result;
+                imagePreview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>

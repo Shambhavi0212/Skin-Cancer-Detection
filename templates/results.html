@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Cancer Detection Result</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('/static/bg1.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            text-align: center;
+        }
+        .result-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border: 4px solid rgb(255, 230, 0);
+            border-radius: 50px;
+            margin-top: 20px;
+            width: 200px;
+            height: 40px;
+font-size: 2em;
+        }
+        h1 {
+            margin-top: 50px;
+            color: white;
+            font-size: 3em;
+            text-shadow: 0 0 5px blue, 0 0 10px blue, 0 0 15px blue, 0 0 20px blue;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px blue, 0 0 10px blue, 0 0 15px blue, 0 0 20px blue;
+            }
+            to {
+                text-shadow: 0 0 10px blue, 0 0 15px blue, 0 0 20px blue, 0 0 25px blue;
+            }
+        }
+        p {
+            font-size: 2.5em;
+            margin: 10px 0;
+            margin-top: 30px;
+            color: rgb(0, 0, 0);
+        }
+        .tips-container {
+            background-color: rgba(42, 42, 42, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            width: 50%;
+            color: white;
+            text-align: left;
+            overflow: hidden;
+        }
+        .tips-container h2 {
+            font-size: 2em;
+            color: #e0ff14;
+            margin: 0;
+            text-align: center;
+        }
+        .tips-container ul {
+            font-size: 1.2em;
+            list-style-type: none;
+            margin-left: 0;
+            padding-left: 0;
+        }
+        .tips-container li {
+            margin-bottom: 10px;
+        }
+        .tip-title {
+            color: #f9b4d6;
+            font-weight: bold;
+        }
+        .tip-content {
+            color: #ffffff;
+            font-weight: normal;
+            margin-left: 10px;
+        }
+        a {
+            color: yellow;
+            text-decoration: none;
+            margin-top: 20px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Skin Cancer Detection Result</h1>
+    <p>Result:</p>
+    <span class="result-container" style="background-color: {{ 'red' if result == 'Cancer' else 'green' }};">
+        <strong class="{{ 'cancer-result' if result == 'Cancer' else 'non-cancer-result' }}">{{ result }}</strong>
+    </span>
+    <div class="tips-container" id="tipsContainer">
+        {% if result == 'Cancer' %}
+            <h2>Be Cautious! Urgent Action Needed!</h2>
+            <ul id="tipsList">
+                <li>
+                    <span class="tip-title">Consult a Healthcare Professional:</span> 
+                    <span class="tip-content">Seek advice from an oncologist or a healthcare provider who specializes in cancer.</span>
+                </li>
+                <li>
+                    <span class="tip-title">Educate Yourself:</span> 
+                    <span class="tip-content">Learn about the specific type of cancer diagnosed, including its treatment options, prognosis, and potential side effects.</span>
+                </li>
+                <li>
+                    <span class="tip-title">Incorporate Stress-Reduction Techniques:</span> 
+                    <span class="tip-content">Engage in activities such as yoga, meditation, or deep-breathing exercises to help manage stress and improve your emotional health.</span>
+                </li>
+            </ul>
+        {% else %}
+            <h2>Important Cancer Health Tips:</h2>
+            <ul id="tipsList">
+                <li>
+                    <span class="tip-title">Limit Sun Exposure:</span> 
+                    <span class="tip-content">Protect your skin by avoiding excessive sun exposure, especially during peak hours, and wear protective clothing and hats when outdoors.</span>
+                </li>
+                <li>
+                    <span class="tip-title">Be Aware of Skin Changes:</span> 
+                    <span class="tip-content">Regularly check your skin for any new growths, changes in existing moles, or unusual spots, and report any concerns to a healthcare professional.</span>
+                </li>
+                <li>
+                    <span class="tip-title">Eat a Balanced Diet:</span> 
+                    <span class="tip-content">Incorporate a variety of fruits, vegetables, whole grains, and lean proteins into your diet to help maintain good health and reduce the risk of various diseases.</span>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+    <a href="javascript:history.back()"> <<---- Go Back</a>
+
+    <script>
+        function animateText(containerId) {
+            const container = document.getElementById(containerId);
+            const listItems = container.querySelectorAll('li');
+            let delay = 0;
+
+            // Hide all list items initially
+            listItems.forEach(item => {
+                item.style.visibility = 'hidden';
+            });
+
+            // Start the typing animation with a delay of 1000 milliseconds (1 second)
+            setTimeout(() => {
+                listItems.forEach((item, index) => {
+                    item.style.visibility = 'visible'; // Make the item visible
+                    const spans = item.querySelectorAll('span');
+                    spans.forEach(span => {
+                        const originalText = span.textContent;
+                        span.textContent = ''; // Clear the text content
+                        for (let i = 0; i < originalText.length; i++) {
+                            setTimeout(() => {
+                                span.textContent += originalText[i];
+                            }, delay);
+                            delay += 70; // Adjust the speed of typing here
+                        }
+                    });
+                    // Increment delay to space out the appearance of each list item
+                    delay += 500; // Adjust this value for how long to wait between items
+                });
+            }, 1000); // Delay before starting the animation
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            animateText('tipsList');
+        });
+    </script>
+</body>
+</html>
