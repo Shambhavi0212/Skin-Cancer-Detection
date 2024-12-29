@@ -52,9 +52,9 @@ def predict():
 
         # Corrected threshold for Cancer/No Cancer
         if cancer_probability >= 50:
-            result = " No Cancer"
+            result = " Cancer"
         else:
-            result = "Cancer"
+            result = " No Cancer"
 
         # Render the results on a new page
         return render_template('results.html', result=result)
